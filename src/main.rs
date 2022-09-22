@@ -551,7 +551,7 @@ fn print_field(field: Field, header: &String, process: &procfs::process::Process
                 None         => None,
             };
             let s = match state {
-                Some(state) if state == String::from("Z") => format!("{} <defunct>", comm),
+                Some(state) if state.starts_with("Z") => format!("{} <defunct>", comm),
                 _ => format!("{}", comm),
             };
             print_string_with_width(&s, max(27, header_len), Alignment::Left, is_last);
@@ -573,7 +573,7 @@ fn print_field(field: Field, header: &String, process: &procfs::process::Process
                 None         => None,
             };
             let s = match state {
-                Some(state) if state == String::from("Z") => format!("{} <defunct>", comm),
+                Some(state) if state.starts_with("Z") => format!("{} <defunct>", comm),
                 _ => format!("{}", comm),
             };
             print_string_with_width(&s, max(15, header_len), Alignment::Left, is_last);
