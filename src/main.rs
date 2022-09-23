@@ -798,9 +798,10 @@ fn print_field(field: Field, header: &String, process: &procfs::process::Process
         Field::WChan => {
             let s = match wchan {
                 Some(wchan) => {
+                    let len = max(8, header_len);
                     let wchan_len = wchan.chars().fold(0, |x, _| x + 1);
-                    let u = if wchan_len > 8 {
-                        let t: String = wchan.chars().take(8).collect();
+                    let u = if wchan_len > len {
+                        let t: String = wchan.chars().take(len).collect();
                         t
                     } else {
                         wchan.clone()
