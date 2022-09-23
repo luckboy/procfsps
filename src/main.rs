@@ -711,7 +711,7 @@ fn print_field(field: Field, header: &String, process: &procfs::process::Process
                             }
                         },
                         Err(_) => {
-                            format!("{}", stat.starttime / ticks_per_sec)
+                            format!("{}", boot_time_secs + stat.starttime / ticks_per_sec)
                         },
                     }
                 },
