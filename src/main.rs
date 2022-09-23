@@ -24,6 +24,7 @@ use std::process::*;
 use std::time::SystemTime;
 use getopt;
 use getopt::Opt;
+use libc;
 use procfs;
 use users::get_user_by_name;
 use users::get_group_by_name;
