@@ -100,6 +100,7 @@ struct Options
     full_listing_flag: bool,
 }
 
+#[derive(Copy, Clone)]
 enum Alignment
 {
     Left,
