@@ -237,12 +237,12 @@ fn parse_ttys(s: &String) -> Option<Vec<i32>>
                     if n <= 191 {
                         tty_nrs.push(libc::makedev(4, 64 + n) as i32);
                     } else {
-                        println!("Invlaid terminal name");
+                        eprintln!("Invalid terminal name");
                         return None;
                     }
                 },
                 Err(_) => {
-                    println!("Invlaid terminal name");
+                    eprintln!("Invalid terminal name");
                     return None;
                 },
             }
@@ -252,12 +252,12 @@ fn parse_ttys(s: &String) -> Option<Vec<i32>>
                     if n <= 63 {
                         tty_nrs.push(libc::makedev(4, n) as i32);
                     } else {
-                        println!("Invlaid terminal name");
+                        eprintln!("Invalid terminal name");
                         return None;
                     }
                 },
                 Err(_) => {
-                    println!("Invlaid terminal name");
+                    eprintln!("Invalid terminal name");
                     return None;
                 },
             }
@@ -267,17 +267,17 @@ fn parse_ttys(s: &String) -> Option<Vec<i32>>
                     if n <= 255 {
                         tty_nrs.push(libc::makedev(136, n) as i32);
                     } else {
-                        println!("Invlaid terminal name");
+                        eprintln!("Invalid terminal name");
                         return None;
                     }
                 },
                 Err(_) => {
-                    println!("Invlaid terminal name");
+                    eprintln!("Invalid terminal name");
                     return None;
                 },
             }
         } else {
-            println!("Invlaid terminal name");
+            eprintln!("Invalid terminal name");
             return None;
         }
     }
