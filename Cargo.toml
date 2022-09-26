@@ -4,6 +4,9 @@ version = "0.1.0"
 authors = ["Łukasz Szpakowski <luckboy@vp.pl>"]
 edition = "2018"
 license = "GPL-3.0-or-later"
+description = "Ps program with procfs crate."
+repository = "https://github.com/luckboy/procfsps"
+keywords = ["cli", "utility", "linux"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
