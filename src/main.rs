@@ -191,7 +191,7 @@ fn parse_users(s: &String) -> Option<Vec<u32>>
 fn parse_groups(s: &String) -> Option<Vec<u32>>
 {
     let mut gids: Vec<u32> = Vec::new();
-    for t in s.split(|c: char| { c.is_whitespace() || c == ','}) {
+    for t in s.split(|c: char| { c.is_whitespace() || c == ',' }) {
         match t.parse::<u32>() {
             Ok(gid) => gids.push(gid),
             Err(_)  => {
@@ -211,7 +211,7 @@ fn parse_groups(s: &String) -> Option<Vec<u32>>
 fn parse_pids(s: &String) -> Option<Vec<i32>>
 {
     let mut pids: Vec<i32> = Vec::new();
-    for t in s.split(|c: char| { c.is_whitespace() || c == ','}) {
+    for t in s.split(|c: char| { c.is_whitespace() || c == ',' }) {
         match t.parse::<i32>() {
             Ok(pid) => pids.push(pid),
             Err(err)  => {
@@ -227,7 +227,7 @@ fn parse_pids(s: &String) -> Option<Vec<i32>>
 fn parse_ttys(s: &String) -> Option<Vec<i32>>
 {
     let mut tty_nrs: Vec<i32> = Vec::new();
-    for t in s.split(|c: char| { c.is_whitespace() || c == ','}) {
+    for t in s.split(|c: char| { c.is_whitespace() || c == ',' }) {
         if t == "console" {
             tty_nrs.push(unsafe { libc::makedev(5, 1) as i32 });
         } else if t == "tty" {
@@ -290,7 +290,7 @@ fn parse_ttys(s: &String) -> Option<Vec<i32>>
 fn parse_fields_and_headers(s: &String) -> Option<Vec<(Field, String)>>
 {
     let mut fields_and_headers: Vec<(Field, String)> = Vec::new();
-    for t in s.split(|c: char| { c.is_whitespace() || c == ','}) {
+    for t in s.split(|c: char| { c.is_whitespace() || c == ',' }) {
         let (field_spec, header) = match t.split_once('=') {
             Some((field_spec, header)) => (field_spec, Some(header)),
             None => (t, None),
@@ -716,7 +716,7 @@ fn print_field(field: Field, header: &String, process: &procfs::process::Process
                         },
                     }
                 },
-                None => String::from("?"),
+                None       => String::from("?"),
             };
             print_string_with_width(&s, max(5, header_len), Alignment::Right, is_last);
         },
