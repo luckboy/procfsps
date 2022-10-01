@@ -223,21 +223,22 @@ fn parse_pids(s: &String) -> Option<Vec<i32>>
     Some(pids)
 }
 
+#[allow(unused_unsafe)] 
 fn parse_ttys(s: &String) -> Option<Vec<i32>>
 {
     let mut tty_nrs: Vec<i32> = Vec::new();
     for t in s.split(|c: char| { c.is_whitespace() || c == ','}) {
         if t == "console" {
-            tty_nrs.push(libc::makedev(5, 1) as i32);
+            tty_nrs.push(unsafe { libc::makedev(5, 1) as i32 });
         } else if t == "tty" {
-            tty_nrs.push(libc::makedev(5, 0) as i32);
+            tty_nrs.push(unsafe { libc::makedev(5, 0) as i32 });
         } else if t == "pts/ptmx" {
-            tty_nrs.push(libc::makedev(5, 2) as i32);
+            tty_nrs.push(unsafe { libc::makedev(5, 2) as i32 });
         } else if t.starts_with("ttyS") {
             match t[4..].parse::<u32>() {
                 Ok(n) => {
                     if n <= 191 {
-                        tty_nrs.push(libc::makedev(4, 64 + n) as i32);
+                        tty_nrs.push(unsafe { libc::makedev(4, 64 + n) as i32 });
                     } else {
                         eprintln!("Invalid terminal name");
                         return None;
@@ -252,7 +253,7 @@ fn parse_ttys(s: &String) -> Option<Vec<i32>>
             match t[3..].parse::<u32>() {
                 Ok(n) => {
                     if n <= 63 {
-                        tty_nrs.push(libc::makedev(4, n) as i32);
+                        tty_nrs.push(unsafe { libc::makedev(4, n) as i32 });
                     } else {
                         eprintln!("Invalid terminal name");
                         return None;
@@ -267,7 +268,7 @@ fn parse_ttys(s: &String) -> Option<Vec<i32>>
             match t[4..].parse::<u32>() {
                 Ok(n) => {
                     if n <= 255 {
-                        tty_nrs.push(libc::makedev(136, n) as i32);
+                        tty_nrs.push(unsafe { libc::makedev(136, n) as i32 });
                     } else {
                         eprintln!("Invalid terminal name");
                         return None;
