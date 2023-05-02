@@ -1,6 +1,6 @@
 //
 // Procfsps - Ps program with procfs crate.
-// Copyright (C) 2022 Łukasz Szpakowski
+// Copyright (C) 2022-2023 Łukasz Szpakowski
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -129,27 +129,27 @@ pub fn abbreviated_month_name(month: i32) -> Option<&'static str>
 
 pub fn localtime(time: i64) -> Result<Tm>
 {
-    let mut libc_tm: libc::tm = unsafe { MaybeUninit::uninit().assume_init() };
+    let mut libc_tm: MaybeUninit<libc::tm> = MaybeUninit::uninit();
     let libc_time = time as libc::time_t;
-    let res = unsafe { libc::localtime_r(&libc_time as *const libc::time_t, &mut libc_tm as *mut libc::tm) };
+    let res = unsafe { libc::localtime_r(&libc_time as *const libc::time_t, libc_tm.assume_init_mut() as *mut libc::tm) };
     if !res.is_null() {
-        let zone = if !libc_tm.tm_zone.is_null() {
-            let zone_cstr = unsafe { CStr::from_ptr(libc_tm.tm_zone) };
+        let zone = if !unsafe { libc_tm.assume_init_ref() }.tm_zone.is_null() {
+            let zone_cstr = unsafe { CStr::from_ptr(libc_tm.assume_init_ref().tm_zone) };
             Some(CString::new(zone_cstr.to_bytes()).unwrap())
         } else {
             None
         };
         let tm = Tm {
-            sec: libc_tm.tm_sec,
-            min: libc_tm.tm_min,
-            hour: libc_tm.tm_hour,
-            mday: libc_tm.tm_mday,
-            mon: libc_tm.tm_mon,
-            year: libc_tm.tm_year,
-            wday: libc_tm.tm_wday,
-            yday: libc_tm.tm_yday,
-            isdst: libc_tm.tm_isdst,
-            gmtoff: libc_tm.tm_gmtoff as i64,
+            sec: unsafe { libc_tm.assume_init_ref() }.tm_sec,
+            min: unsafe { libc_tm.assume_init_ref() }.tm_min,
+            hour: unsafe { libc_tm.assume_init_ref() }.tm_hour,
+            mday: unsafe { libc_tm.assume_init_ref() }.tm_mday,
+            mon: unsafe { libc_tm.assume_init_ref() }.tm_mon,
+            year: unsafe { libc_tm.assume_init_ref() }.tm_year,
+            wday: unsafe { libc_tm.assume_init_ref() }.tm_wday,
+            yday: unsafe { libc_tm.assume_init_ref() }.tm_yday,
+            isdst: unsafe { libc_tm.assume_init_ref() }.tm_isdst,
+            gmtoff: unsafe { libc_tm.assume_init_ref() }.tm_gmtoff as i64,
             zone,
         };
         Ok(tm)
